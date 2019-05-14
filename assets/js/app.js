@@ -33,10 +33,16 @@ $('#add').click(function() {
     remove.addClass('remove');
     remove.html(removeIcon);
 
+    // 削除ボタンがクリックされた時の処理
+    remove.click(removeTask);
+
     // 完了ボタン
     let done = $('<button>');
     done.addClass('done');
     done.html(doneIcon);
+
+    // 完了ボタンがクリックされた時の処理
+    done.click(doneTask);
 
     // divにボタンを追加
     buttons.append(remove);
@@ -51,3 +57,27 @@ $('#add').click(function() {
     // 入力欄のリセット
     inputTask.val('');
 });
+
+// タスクを削除する
+function removeTask() {
+    let task = $(this).closest('li');
+    task.remove();
+}
+
+// タスクを完了する
+function doneTask() {
+    // 移動させるliを取得
+    let task = $(this).closest('li');
+
+    // liの親であるulのidを取得する
+    let id = task.parent().attr('id');
+    
+    // doneのタスクの場合
+    if (id == 'done') {
+        // 処理を中断
+        return;
+    }
+
+    // タスクを移動
+    $('#done').append(task);
+}
